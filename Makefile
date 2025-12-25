@@ -1,2 +1,2 @@
 build:
-	go build -o dist/golox ./main.go
+	go build -o dist/golox

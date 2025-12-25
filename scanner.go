@@ -64,10 +64,79 @@ func (s *Scanner) scanToken() {
 	case '*':
 		s.addToken(STAR)
 		break
+
+	case '!':
+		if s.match('=') {
+			s.addToken(BANG_EQUAL)
+		} else {
+			s.addToken(BANG)
+		}
+		break
+	case '=':
+		if s.match('=') {
+			s.addToken(EQUAL_EQUAL)
+		} else {
+			s.addToken(EQUAL)
+		}
+		break
+	case '<':
+		if s.match('=') {
+			s.addToken(LESS_EQUAL)
+		} else {
+			s.addToken(LESS)
+		}
+		break
+	case '>':
+		if s.match('=') {
+			s.addToken(GREATER_EQUAL)
+		} else {
+			s.addToken(GREATER)
+		}
+		break
+	case '/':
+		if s.match('/') {
+			for s.peek() != '\n' && !s.isAtEnd() {
+				s.advance()
+			}
+		} else {
+			s.addToken(SLASH)
+		}
+		break
+
+	case ' ':
+	case '\r':
+	case '\t':
+		// ignore whitespaces
+		break
+	case '\n':
+		s.line += 1
+		break
+
 	default:
 		globalLox.Error(s.line, "Unexpected character")
-		break;
+		break
 	}
+}
+
+func (s *Scanner) match(expected rune) bool {
+	if s.isAtEnd() {
+		return false
+	}
+
+	if s.source[s.current] != byte(expected) {
+		return false
+	}
+
+	s.current += 1
+	return true
+}
+
+func (s *Scanner) peek() rune {
+	if s.isAtEnd() {
+		return '\000'
+	}
+
+	return rune(s.source[s.current])
 }
 
 func (s *Scanner) addToken(tokenType TokenType) {

@@ -3,7 +3,8 @@ package main
 import (
 	"os"
 )
-var globalLox
+
+var globalLox Lox
 
 func main() {
 	globalLox = Lox{}
