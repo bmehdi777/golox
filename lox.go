@@ -27,7 +27,10 @@ func (l *Lox) RunFile(path string) {
 	}
 
 	content := string(data)
-	fmt.Println("File content : ", content)
+	scanner := NewScanner(content)
+	tokens := scanner.ScanTokens()
+
+	fmt.Println("Tokens : ", tokens)
 }
 
 func (l *Lox) RunInteractive() {
@@ -41,8 +44,18 @@ func (l *Lox) RunInteractive() {
 			os.Exit(1)
 		}
 
-		l.run(string(line))
+		//l.run(string(line))
 		l.hadError = false
+
+		scanner := NewScanner(string(line))
+		tokens := scanner.ScanTokens()
+
+		// debug purpose
+		if !l.hadError {
+			for _, tok := range tokens {
+				fmt.Println(tok.toString())
+			}
+		}
 
 		fmt.Print(">> ")
 	}

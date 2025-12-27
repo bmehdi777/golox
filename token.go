@@ -2,72 +2,74 @@ package main
 
 import "fmt"
 
-type TokenType int
+type TokenType string
 
 const (
 	// single character
-	LEFT_PAREN TokenType = iota
-	RIGHT_PAREN
-	LEFT_BRACE
-	RIGHT_BRACE
-	COMMA
-	DOT
-	MINUS
-	PLUS
-	SEMICOLON
-	SLASH
-	STAR
+	LEFT_PAREN TokenType = "LEFT_PAREN"
+	RIGHT_PAREN = "RIGHT_PAREN"
+	LEFT_BRACE = "LEFT_BRACE"
+	RIGHT_BRACE = "RIGHT_BRACE"
+	COMMA = "COMMA"
+	DOT = "DOT"
+	MINUS = "MINUS"
+	PLUS = "PLUS"
+	SEMICOLON = "SEMICOLON"
+	SLASH = "SLASH"
+	STAR = "STAR"
 
 	// one or two character token
-	BANG
-	BANG_EQUAL
-	EQUAL
-	EQUAL_EQUAL
-	GREATER
-	GREATER_EQUAL
-	LESS
-	LESS_EQUAL
+	BANG = "BANG"
+	BANG_EQUAL = "BANG_EQUAL"
+	EQUAL = "EQUAL"
+	EQUAL_EQUAL = "EQUAL_EQUAL"
+	GREATER = "GREATER"
+	GREATER_EQUAL = "GREATER_EQUAL"
+	LESS = "LESS"
+	LESS_EQUAL = "LESS_EQUAL"
 
 	// literals
-	IDENTIFIER
-	STRING
-	NUMBER
+	IDENTIFIER = "IDENTIFIER"
+	STRING = "STRING"
+	NUMBER = "NUMBER"
 
 	// keywords
-	AND
-	CLASS
-	ELSE
-	FALSE
-	FUN
-	FOr
-	IF
-	NIL
-	OR
-	PRINT
-	RETURN
-	SUPER
-	THIS
-	TRUE
-	VAR
-	WHILE
+	AND = "AND"
+	CLASS = "CLASS"
+	ELSE = "ELSE"
+	FALSE = "FALSE"
+	FUN = "FUN"
+	FOR = "FOR"
+	IF = "IF"
+	NIL = "NIL"
+	OR = "OR"
+	PRINT = "PRINT"
+	RETURN = "RETURN"
+	SUPER = "SUPER"
+	THIS = "THIS"
+	TRUE = "TRUE"
+	VAR = "VAR"
+	WHILE = "WHILE"
 
-	EOF
+	EOF = "EOF"
 )
 
 type Token struct {
 	tokenType TokenType
 	lexeme    string
 	line      int
+	value     string // every value will be stored as string (no dynamic type in golang)
 }
 
 func (t *Token) toString() string {
-	return fmt.Sprintf("%v %v %d", t.tokenType, t.lexeme, t.line)
+	return fmt.Sprintf("%v %v %d", t.tokenType, string(t.lexeme), t.line)
 }
 
-func NewToken(tokenType TokenType, lexeme string, line int) *Token {
+func NewToken(tokenType TokenType, lexeme string, line int, value string) *Token {
 	return &Token{
 		tokenType,
 		lexeme,
 		line,
+		value,
 	}
 }
